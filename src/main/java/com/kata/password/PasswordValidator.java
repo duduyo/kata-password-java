@@ -1,14 +1,25 @@
 package com.kata.password;
 
+import com.kata.password.rules.AtLeastOneDigitRule;
+import com.kata.password.rules.AtLeastOneLetterRule;
+import com.kata.password.rules.IsLongEnoughRule;
+
 public class PasswordValidator {
 
-    private static final String AT_LEAST_ONE_DIGIT = ".*\\p{N}.*";
+    private final AtLeastOneDigitRule atLeastOneDigitRule;
+    private final AtLeastOneLetterRule atLeastOneLetterRule;
+    private final IsLongEnoughRule isLongEnoughRule;
 
-    private static final String AT_LEAST_ONE_LETTER = ".*\\p{L}.*";
+    PasswordValidator() {
+        atLeastOneDigitRule = new AtLeastOneDigitRule();
+        atLeastOneLetterRule = new AtLeastOneLetterRule();
+        isLongEnoughRule = new IsLongEnoughRule();
+    }
 
     boolean validate(String password) {
-        return  password.length()>8 &&
-                password.matches(AT_LEAST_ONE_DIGIT) &&
-                password.matches(AT_LEAST_ONE_LETTER);
+        return isLongEnoughRule.validate(password) &&
+                atLeastOneDigitRule.validate(password) &&
+                atLeastOneLetterRule.validate(password);
     }
 }
+

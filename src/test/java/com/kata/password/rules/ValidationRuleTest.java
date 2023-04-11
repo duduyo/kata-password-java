@@ -9,25 +9,37 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ValidationRuleTest {
 
-    private ValidationRule atLeastOneDigitRule;
 
-    @BeforeEach
-    public void setUp() throws Exception {
-        atLeastOneDigitRule = new AtLeastOneDigitRule();
+    @Test
+    public void should_validate_contains_at_least_one_digit() throws Exception {
+        ValidationRule rule = new AtLeastOneDigitRule();
+        assertFalse(rule.validate("a"));
+        assertFalse(rule.validate("&éç#"));
+        assertTrue(rule.validate("1"));
+        assertTrue(rule.validate("a1"));
+        assertTrue(rule.validate("a&2"));
     }
 
     @Test
-    public void should_return_false_when_no_digit() throws Exception {
-        assertFalse(atLeastOneDigitRule.validate("a"));
-        assertFalse(atLeastOneDigitRule.validate("&éç#"));
+    public void should_validate_contains_at_least_one_letter() {
+        ValidationRule rule = new AtLeastOneLetterRule();
+        assertTrue(rule.validate("a"));
+        assertTrue(rule.validate("1A"));
+        assertTrue(rule.validate("23é#"));
+        assertFalse(rule.validate("23#"));
+        assertFalse(rule.validate(" 8_("));
+
     }
 
     @Test
-    public void should_true_when_at_least_one_digit() throws Exception {
-        assertTrue(atLeastOneDigitRule.validate("1"));
-        assertTrue(atLeastOneDigitRule.validate("a1"));
-        assertTrue(atLeastOneDigitRule.validate("a&2"));
+    public void should_validate_is_long_enough() throws Exception {
+        ValidationRule rule = new IsLongEnoughRule();
+        assertTrue(rule.validate("123456789"));
+        assertTrue(rule.validate("12345678az3#"));
+        assertFalse(rule.validate("12345678"));
+        assertFalse(rule.validate("123456"));
     }
+
 }
 
 
