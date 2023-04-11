@@ -16,15 +16,14 @@ public class PasswordValidatorTest {
     public void setUp() throws Exception {
         passwordValidator = new PasswordValidator();
     }
-
     @Test
-    public void should_return_false_when_no_shorter_than_8() throws Exception {
+    public void should_return_false_when_shorter_than_8() throws Exception {
         assertFalse(passwordValidator.validate("abc"));
     }
 
     @Test
-    public void should_return_true_when_longuer_than_8() throws Exception {
-        assertTrue(passwordValidator.validate("123456789a"));
+    public void should_return_true_when_longuer_than_8_and_contains__letter_digit_and_special_char() throws Exception {
+        assertTrue(passwordValidator.validate("123456789a&"));
     }
 
     @Test
@@ -33,12 +32,13 @@ public class PasswordValidatorTest {
     }
 
     @Test
-    public void should_return_true_when_contains_a_digit() throws Exception {
-        assertTrue(passwordValidator.validate("abcdefghi6"));
-    }
-
-    @Test
     public void should_return_false_when_no_letter() throws Exception {
         assertFalse(passwordValidator.validate("123456789"));
     }
+
+    @Test
+    public void should_return_false_when_no_special_character() throws Exception {
+        assertFalse(passwordValidator.validate("12345678ab"));
+    }
+
 }

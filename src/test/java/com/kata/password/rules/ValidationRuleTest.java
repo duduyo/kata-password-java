@@ -40,6 +40,17 @@ public class ValidationRuleTest {
         assertFalse(rule.validate("123456"));
     }
 
+    @Test
+    public void should_validate_contains_at_least_one_special_character() {
+        ValidationRule rule = new AtLeastOneSpecialCharacter();
+        assertTrue(rule.validate("#"));
+        assertTrue(rule.validate("abdc}a"));
+        assertFalse(rule.validate("123"));
+        assertFalse(rule.validate("abCD"));
+        assertFalse(rule.validate("ab CD"));
+
+    }
+
 }
 
 
