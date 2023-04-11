@@ -1,11 +1,8 @@
 package com.kata.password;
 
-
+import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class PasswordValidatorTest {
@@ -17,28 +14,23 @@ public class PasswordValidatorTest {
         passwordValidator = new PasswordValidator();
     }
     @Test
-    public void should_return_false_when_shorter_than_8() throws Exception {
-        assertFalse(passwordValidator.validate("abc"));
+    public void should_return_error_message_when_no_digit_and_no_letter_and_no_long_enough() {
+        assertThat(passwordValidator.validate("####")).containsExactlyInAnyOrder(
+                "Password should contain at least one digit",
+                        "Password should contain at least one letter",
+                        "Password should contain more than 8 characters");
     }
 
     @Test
-    public void should_return_true_when_longuer_than_8_and_contains__letter_digit_and_special_char() throws Exception {
-        assertTrue(passwordValidator.validate("123456789a&"));
+    public void should_return_error_message_when_no_digit_and_no_special_character() {
+        assertThat(passwordValidator.validate("abcdefghijk")).
+                containsExactlyInAnyOrder("Password should contain at least one digit",
+                        "Password should contain at least one special character");
     }
 
     @Test
-    public void should_return_false_when_no_digit() throws Exception {
-        assertFalse(passwordValidator.validate("abcdefghi"));
+    public void should_return_empty_when_password_satisfies_all_rules() {
+        assertThat(passwordValidator.validate("abcdefghijk##4")).
+                isEmpty();
     }
-
-    @Test
-    public void should_return_false_when_no_letter() throws Exception {
-        assertFalse(passwordValidator.validate("123456789"));
-    }
-
-    @Test
-    public void should_return_false_when_no_special_character() throws Exception {
-        assertFalse(passwordValidator.validate("12345678ab"));
-    }
-
 }

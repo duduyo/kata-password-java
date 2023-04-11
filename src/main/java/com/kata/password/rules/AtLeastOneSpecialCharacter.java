@@ -7,7 +7,11 @@ public class AtLeastOneSpecialCharacter implements ValidationRule {
     private static final String AT_LEAST_ONE_PUNCTUATION_CHARACTER = ".*\\p{Punct}.*";
 
     @Override
-    public boolean validate(String password) {
+    public String validate(String password) {
+        return containsSpecialCharacter(password)?"":"Password should contain at least one special character";
+    }
+
+    private boolean containsSpecialCharacter(String password) {
         return password.matches(AT_LEAST_ONE_PUNCTUATION_CHARACTER);
     }
 }

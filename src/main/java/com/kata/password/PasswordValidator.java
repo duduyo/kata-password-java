@@ -23,13 +23,15 @@ public class PasswordValidator {
         validationRules.add(new AtLeastOneSpecialCharacter());
     }
 
-    boolean validate(String password) {
-        boolean result = true;
-        Iterator<ValidationRule> iterator = validationRules.iterator();
-        while (result && iterator.hasNext()) {
-            result = iterator.next().validate(password);
+    List<String > validate(String password) {
+        ArrayList<String> messageList = new ArrayList<>();
+        for (ValidationRule rule : validationRules) {
+            String message = rule.validate(password);
+            if (!message.isEmpty()) {
+                messageList.add(message);
+            }
         }
-        return result;
+        return messageList;
     }
 }
 
